@@ -110,20 +110,22 @@ public class Board {
         pieces[5][6] = board.pieces[5][6];
         pieces[6][6] = board.pieces[6][6];
         pieces[7][6] = board.pieces[7][6];
-
-        capturedPieces = new ArrayList<>();
-        capturedPieces.addAll(board.capturedPieces);
-
-        Character destination = pieces[move.destination.x][move.destination.y];
-        if (!destination.equals(' '))
-            capturedPieces.add(pieces[move.destination.x][move.destination.y]);
-        pieces[move.destination.x][move.destination.y] = pieces[move.origin.x][move.origin.y];
-        pieces[move.origin.x][move.origin.y] = EMPTY;
         for (int i = 0; i <= 7; i++) {
             for (int j = 2; j <= 5; j++) {
                 pieces[i][j] = EMPTY;
             }
         }
+
+
+        capturedPieces = new ArrayList<>();
+        capturedPieces.addAll(board.capturedPieces);
+
+        Character destination = pieces[move.destination.x][move.destination.y];
+        if (!destination.equals(EMPTY))
+            capturedPieces.add(pieces[move.destination.x][move.destination.y]);
+        pieces[move.destination.x][move.destination.y] = pieces[move.origin.x][move.origin.y];
+        pieces[move.origin.x][move.origin.y] = EMPTY;
+
         moves = board.moves + 1;
         activeColor = !board.activeColor;
         check = false;
