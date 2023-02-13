@@ -33,6 +33,14 @@ public class Board {
         pieces[5][0] = WHITE_BISHOP;
         pieces[6][0] = WHITE_KNIGHT;
         pieces[7][0] = WHITE_ROOK;
+        pieces[0][1] = WHITE_PAWN;
+        pieces[1][1] = WHITE_PAWN;
+        pieces[2][1] = WHITE_PAWN;
+        pieces[3][1] = WHITE_PAWN;
+        pieces[4][1] = WHITE_PAWN;
+        pieces[5][1] = WHITE_PAWN;
+        pieces[6][1] = WHITE_PAWN;
+        pieces[7][1] = WHITE_PAWN;
         pieces[0][7] = BLACK_ROOK;
         pieces[1][7] = BLACK_KNIGHT;
         pieces[2][7] = BLACK_BISHOP;
@@ -40,10 +48,18 @@ public class Board {
         pieces[4][7] = BLACK_QUEEN;
         pieces[5][7] = BLACK_BISHOP;
         pieces[6][7] = BLACK_KNIGHT;
-        pieces[7][7] = BLACK_ROOK;
+        pieces[7][7] = BLACK_ROOK;;
+        pieces[0][6] = BLACK_PAWN;
+        pieces[1][6] = BLACK_PAWN;
+        pieces[2][6] = BLACK_PAWN;
+        pieces[3][6] = BLACK_PAWN;
+        pieces[4][6] = BLACK_PAWN;
+        pieces[5][6] = BLACK_PAWN;
+        pieces[6][6] = BLACK_PAWN;
+        pieces[7][6] = BLACK_PAWN;
         moves = 0;
         activeColor = WHITE;
         check = false;
     }
-    
+
 }
