@@ -1,5 +1,7 @@
 package huhtala.bryce;
 
+import java.util.Arrays;
+
 public class Board {
     public static final boolean WHITE = true;
     public static final boolean BLACK = false;
@@ -16,6 +18,7 @@ public class Board {
     public static final char BLACK_ROOK = 'R';
     public static final char BLACK_QUEEN = 'Q';
     public static final char BLACK_KING = 'K';
+    public static final char EMPTY = ' ';
 
     char[][] pieces;
     boolean activeColor;
@@ -57,9 +60,29 @@ public class Board {
         pieces[5][6] = BLACK_PAWN;
         pieces[6][6] = BLACK_PAWN;
         pieces[7][6] = BLACK_PAWN;
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 2; j <= 5; j++) {
+                pieces[i][j] = EMPTY;
+            }
+        }
         moves = 0;
         activeColor = WHITE;
         check = false;
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int j = 7; j >= 0; j--) {
+            for (int i = 0; i < 8; i++) {
+                sb.append(pieces[i][j]);
+                if (i == 7)
+                    sb.append('\n');
+            }
+        }
+
+        return sb.toString();
+    }
 }
