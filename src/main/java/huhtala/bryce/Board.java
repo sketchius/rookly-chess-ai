@@ -153,14 +153,14 @@ public class Board {
                 List<Move> newMoves = getLegalMovesForPiece(whitePieces[i]);
                 moves.addAll(newMoves);
             }
-            int randomIndex = random.nextInt(moves.size()-1);
+            int randomIndex = random.nextInt(moves.size());
             move = moves.get(randomIndex);
         } else {
             List<Move> moves = new ArrayList<>();
             for (int i = 0; i < blackPieces.length; i++) {
                 moves.addAll(getLegalMovesForPiece(blackPieces[i]));
             }
-            int randomIndex = random.nextInt(moves.size()-1);
+            int randomIndex = random.nextInt(moves.size());
             move = moves.get(randomIndex);
         }
 
@@ -174,7 +174,7 @@ public class Board {
             case Piece.PAWN:
                 short forward = piece.getColor() == Piece.WHITE ? UP : DOWN;
                 if (isLineClear(piece,forward,1))
-                    moves.add(new Move(piece,forward,1));
+                    moves.add(new Move(piece,getDirectionOffset(forward,1)));
                 break;
 //            case Piece.ROOK:
 //                for (int i = 1; i <= 8; i++) {
@@ -243,49 +243,49 @@ public class Board {
         int y = piece.getY();
         switch (direction) {
             case UP:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y+i > 7) return false;
                     if (getPieceAt(x, y+i) != null) return false;
                 }
                 break;
             case RIGHT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (x+i > 7) return false;
                     if (getPieceAt(x+i, y) != null) return false;
                 }
                 break;
             case DOWN:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y-i < 0) return false;
                     if (getPieceAt(x, y-i) != null) return false;
                 }
                 break;
             case LEFT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (x-i < 0) return false;
                     if (getPieceAt(x-i, y) != null) return false;
                 }
                 break;
             case UP_RIGHT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y+i > 7 || x+i > 7) return false;
                     if (getPieceAt(x+i, y+i) != null) return false;
                 }
                 break;
             case DOWN_RIGHT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y-i < 0 || x+i > 7) return false;
                     if (getPieceAt(x+i, y-i) != null) return false;
                 }
                 break;
             case DOWN_LEFT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y-i > 0 || x-i < 0) return false;
                     if (getPieceAt(x-i, y-i) != null) return false;
                 }
                 break;
             case UP_LEFT:
-                for (int i = 1; i < distance; i++) {
+                for (int i = 1; i <= distance; i++) {
                     if (y+i > 7 || x-i < 0) return false;
                     if (getPieceAt(x-i, y+i) != null) return false;
                 }
@@ -325,9 +325,9 @@ public class Board {
         for (int j = 7; j >= 0; j--) {
             for (int i = 0; i < 8; i++) {
                 if (pieces[i][j] != null)
-                    sb.append(pieces[i][j].getType());
+                    sb.append(pieces[i][j].getType() + " ");
                 else
-                    sb.append(" ");
+                    sb.append("  ");
                 if (i == 7)
                     sb.append('\n');
             }
