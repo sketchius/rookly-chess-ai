@@ -67,6 +67,14 @@ public class Board {
         pieces[7][6] = new Piece(7, 6, Piece.PAWN, Piece.BLACK);
         whitePieces = new Piece[16];
         blackPieces = new Piece[16];
+        int whitePiecesAdded = 0;
+        int blackPiecesAdded = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 2; j++) {
+                whitePieces[whitePiecesAdded++] = pieces[i][j];
+                blackPieces[blackPiecesAdded++] = pieces[i][j+6];
+            }
+        }
         whitePiecesCount = 16;
         blackPiecesCount = 16;
         moves = 0;
@@ -85,7 +93,7 @@ public class Board {
         capturedPieces = new ArrayList<>();
         for (int i = 0; i <= 7; i++) {
             for (int j = 0; j <= 7; j++) {
-                if (i != move.origin.x && j != move.origin.y) {
+                if (!(i == move.origin.x && j == move.origin.y)) {
                     Piece piece;
                     if (i == move.destination.x && j == move.destination.y) {
                         piece = board.getPieceAt(move.origin.x, move.origin.y);
@@ -99,10 +107,14 @@ public class Board {
                     if (piece != null) {
 
                         pieces[i][j] = new Piece(i, j, piece.getType(), piece.getColor());
-                        if (piece.getColor() == Piece.WHITE)
+                        if (piece.getColor() == Piece.WHITE) {
                             whitePieces[whitePiecesAdded++] = piece;
-                        else
+                            whitePiecesCount++;
+                        }
+                        else {
                             blackPieces[blackPiecesAdded++] = piece;
+                            blackPiecesCount++;
+                        }
                     }
 
                 }
@@ -112,17 +124,6 @@ public class Board {
         for (Piece capturedPiece : board.capturedPieces) {
             capturedPieces.add(new Piece(capturedPiece));
         }
-
-        Piece destination = pieces[move.destination.x][move.destination.y];
-        if (destination != null) {
-            capturedPieces.add(pieces[move.destination.x][move.destination.y]);
-            if (destination.getColor() == Piece.WHITE)
-                whitePiecesCount--;
-            else
-                blackPiecesCount--;
-        }
-        pieces[move.destination.x][move.destination.y] = pieces[move.origin.x][move.origin.y];
-        pieces[move.origin.x][move.origin.y] = null;
 
         moves = board.moves + 1;
         activeColor = !board.activeColor;
@@ -149,16 +150,17 @@ public class Board {
         if (activeColor == WHITE) {
             List<Move> moves = new ArrayList<>();
             for (int i = 0; i < whitePieces.length; i++) {
-                moves.addAll(getLegalMovesForPiece(whitePieces[i]));
+                List<Move> newMoves = getLegalMovesForPiece(whitePieces[i]);
+                moves.addAll(newMoves);
             }
-            int randomIndex = random.nextInt() * (moves.size() - 1);
+            int randomIndex = random.nextInt(moves.size()-1);
             move = moves.get(randomIndex);
         } else {
             List<Move> moves = new ArrayList<>();
             for (int i = 0; i < blackPieces.length; i++) {
                 moves.addAll(getLegalMovesForPiece(blackPieces[i]));
             }
-            int randomIndex = random.nextInt() * (moves.size() - 1);
+            int randomIndex = random.nextInt(moves.size()-1);
             move = moves.get(randomIndex);
         }
 
@@ -173,53 +175,58 @@ public class Board {
                 short forward = piece.getColor() == Piece.WHITE ? UP : DOWN;
                 if (isLineClear(piece,forward,1))
                     moves.add(new Move(piece,forward,1));
-            case Piece.ROOK:
-                for (int i = 1; i <= 8; i++) {
-                    for (short direction = 0; direction < 4; direction++) {
-                        if (isLineClear(piece,direction,i))
-                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-                    }
-                }
-            case Piece.BISHOP:
-                for (int i = 1; i <= 8; i++) {
-                    for (short direction = 4; direction < 7; direction++) {
-                        if (isLineClear(piece,direction,i))
-                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-                    }
-                }
-            case Piece.QUEEN:
-                for (int i = 1; i <= 8; i++) {
-                    for (short direction = 0; direction < 7; direction++) {
-                        if (isLineClear(piece,direction,i))
-                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-                    }
-                }
-            case Piece.KING:
-                for (short direction = 0; direction < 7; direction++) {
-                    if (isLineClear(piece,direction,1))
-                        moves.add(new Move(piece,getDirectionOffset(direction,1)));
-                }
-            case Piece.KNIGHT:
-                if (pointIsClear(piece.getX() + 2, piece.getY() + 1))
-                    moves.add(new Move(piece,2,1));
-                if (pointIsClear(piece.getX() + 2, piece.getY() - 1))
-                    moves.add(new Move(piece,2,-1));
-
-                if (pointIsClear(piece.getX() + 1, piece.getY() + 2))
-                    moves.add(new Move(piece,1,2));
-                if (pointIsClear(piece.getX() - 1, piece.getY() + 2))
-                    moves.add(new Move(piece,-1,2));
-
-                if (pointIsClear(piece.getX() - 2, piece.getY() + 1))
-                    moves.add(new Move(piece,-2,1));
-                if (pointIsClear(piece.getX() - 2, piece.getY() - 1))
-                    moves.add(new Move(piece,-2,-1));
-
-                if (pointIsClear(piece.getX() + 1, piece.getY() - 2))
-                    moves.add(new Move(piece,1,-2));
-                if (pointIsClear(piece.getX() - 1, piece.getY() - 2))
-                    moves.add(new Move(piece,1,-2));
-
+                break;
+//            case Piece.ROOK:
+//                for (int i = 1; i <= 8; i++) {
+//                    for (short direction = 0; direction < 4; direction++) {
+//                        if (isLineClear(piece,direction,i))
+//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+//                    }
+//                }
+//                break;
+//            case Piece.BISHOP:
+//                for (int i = 1; i <= 8; i++) {
+//                    for (short direction = 4; direction < 7; direction++) {
+//                        if (isLineClear(piece,direction,i))
+//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+//                    }
+//                }
+//                break;
+//            case Piece.QUEEN:
+//                for (int i = 1; i <= 8; i++) {
+//                    for (short direction = 0; direction < 7; direction++) {
+//                        if (isLineClear(piece,direction,i))
+//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+//                    }
+//                }
+//                break;
+//            case Piece.KING:
+//                for (short direction = 0; direction < 7; direction++) {
+//                    if (isLineClear(piece,direction,1))
+//                        moves.add(new Move(piece,getDirectionOffset(direction,1)));
+//                }
+//                break;
+//            case Piece.KNIGHT:
+//                if (pointIsClear(piece.getX() + 2, piece.getY() + 1))
+//                    moves.add(new Move(piece,2,1));
+//                if (pointIsClear(piece.getX() + 2, piece.getY() - 1))
+//                    moves.add(new Move(piece,2,-1));
+//
+//                if (pointIsClear(piece.getX() + 1, piece.getY() + 2))
+//                    moves.add(new Move(piece,1,2));
+//                if (pointIsClear(piece.getX() - 1, piece.getY() + 2))
+//                    moves.add(new Move(piece,-1,2));
+//
+//                if (pointIsClear(piece.getX() - 2, piece.getY() + 1))
+//                    moves.add(new Move(piece,-2,1));
+//                if (pointIsClear(piece.getX() - 2, piece.getY() - 1))
+//                    moves.add(new Move(piece,-2,-1));
+//
+//                if (pointIsClear(piece.getX() + 1, piece.getY() - 2))
+//                    moves.add(new Move(piece,1,-2));
+//                if (pointIsClear(piece.getX() - 1, piece.getY() - 2))
+//                    moves.add(new Move(piece,1,-2));
+//                break;
         }
         return moves;
     }
@@ -230,55 +237,55 @@ public class Board {
     }
 
     private boolean isLineClear(Piece piece, short direction, int distance) {
-        if (direction == 0) return false;
+        if (distance == 0) return false;
         if (piece == null) return false;
         int x = piece.getX();
         int y = piece.getY();
         switch (direction) {
             case UP:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y+i > 7) return false;
                     if (getPieceAt(x, y+i) != null) return false;
                 }
                 break;
             case RIGHT:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (x+i > 7) return false;
                     if (getPieceAt(x+i, y) != null) return false;
                 }
                 break;
             case DOWN:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y-i < 0) return false;
                     if (getPieceAt(x, y-i) != null) return false;
                 }
                 break;
             case LEFT:
-                for (int i = 0; i < distance; i++) {
-                    if (x+i < 0) return false;
+                for (int i = 1; i < distance; i++) {
+                    if (x-i < 0) return false;
                     if (getPieceAt(x-i, y) != null) return false;
                 }
                 break;
             case UP_RIGHT:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y+i > 7 || x+i > 7) return false;
                     if (getPieceAt(x+i, y+i) != null) return false;
                 }
                 break;
             case DOWN_RIGHT:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y-i < 0 || x+i > 7) return false;
                     if (getPieceAt(x+i, y-i) != null) return false;
                 }
                 break;
             case DOWN_LEFT:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y-i > 0 || x-i < 0) return false;
                     if (getPieceAt(x-i, y-i) != null) return false;
                 }
                 break;
             case UP_LEFT:
-                for (int i = 0; i < distance; i++) {
+                for (int i = 1; i < distance; i++) {
                     if (y+i > 7 || x-i < 0) return false;
                     if (getPieceAt(x-i, y+i) != null) return false;
                 }
