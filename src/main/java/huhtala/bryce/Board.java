@@ -41,14 +41,14 @@ public class Board {
         pieces[5][0] = new Piece(5, 0, Piece.BISHOP, Piece.WHITE);
         pieces[6][0] = new Piece(6, 0, Piece.KNIGHT, Piece.WHITE);
         pieces[7][0] = new Piece(7, 0, Piece.ROOK, Piece.WHITE);
-        pieces[0][1] = new Piece(0, 1, Piece.PAWN, Piece.WHITE);
-        pieces[1][1] = new Piece(1, 1, Piece.PAWN, Piece.WHITE);
-        pieces[2][1] = new Piece(2, 1, Piece.PAWN, Piece.WHITE);
-        pieces[3][1] = new Piece(3, 1, Piece.PAWN, Piece.WHITE);
-        pieces[4][1] = new Piece(4, 1, Piece.PAWN, Piece.WHITE);
-        pieces[5][1] = new Piece(5, 1, Piece.PAWN, Piece.WHITE);
-        pieces[6][1] = new Piece(6, 1, Piece.PAWN, Piece.WHITE);
-        pieces[7][1] = new Piece(7, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[0][1] = new Piece(0, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[1][1] = new Piece(1, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[2][1] = new Piece(2, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[3][1] = new Piece(3, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[4][1] = new Piece(4, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[5][1] = new Piece(5, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[6][1] = new Piece(6, 1, Piece.PAWN, Piece.WHITE);
+//        pieces[7][1] = new Piece(7, 1, Piece.PAWN, Piece.WHITE);
         pieces[0][7] = new Piece(0, 7, Piece.ROOK, Piece.BLACK);
         pieces[1][7] = new Piece(1, 7, Piece.KNIGHT, Piece.BLACK);
         pieces[2][7] = new Piece(2, 7, Piece.BISHOP, Piece.BLACK);
@@ -57,26 +57,26 @@ public class Board {
         pieces[5][7] = new Piece(5, 7, Piece.BISHOP, Piece.BLACK);
         pieces[6][7] = new Piece(6, 7, Piece.KNIGHT, Piece.BLACK);
         pieces[7][7] = new Piece(7, 7, Piece.ROOK, Piece.BLACK);
-        pieces[0][6] = new Piece(0, 6, Piece.PAWN, Piece.BLACK);
-        pieces[1][6] = new Piece(1, 6, Piece.PAWN, Piece.BLACK);
-        pieces[2][6] = new Piece(2, 6, Piece.PAWN, Piece.BLACK);
-        pieces[3][6] = new Piece(3, 6, Piece.PAWN, Piece.BLACK);
-        pieces[4][6] = new Piece(4, 6, Piece.PAWN, Piece.BLACK);
-        pieces[5][6] = new Piece(5, 6, Piece.PAWN, Piece.BLACK);
-        pieces[6][6] = new Piece(6, 6, Piece.PAWN, Piece.BLACK);
-        pieces[7][6] = new Piece(7, 6, Piece.PAWN, Piece.BLACK);
-        whitePieces = new Piece[16];
-        blackPieces = new Piece[16];
+//        pieces[0][6] = new Piece(0, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[1][6] = new Piece(1, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[2][6] = new Piece(2, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[3][6] = new Piece(3, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[4][6] = new Piece(4, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[5][6] = new Piece(5, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[6][6] = new Piece(6, 6, Piece.PAWN, Piece.BLACK);
+//        pieces[7][6] = new Piece(7, 6, Piece.PAWN, Piece.BLACK);
+        whitePieces = new Piece[8];
+        blackPieces = new Piece[8];
         int whitePiecesAdded = 0;
         int blackPiecesAdded = 0;
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 1; j++) {
                 whitePieces[whitePiecesAdded++] = pieces[i][j];
-                blackPieces[blackPiecesAdded++] = pieces[i][j+6];
+                blackPieces[blackPiecesAdded++] = pieces[i][j+7];
             }
         }
-        whitePiecesCount = 16;
-        blackPiecesCount = 16;
+        whitePiecesCount = 8;
+        blackPiecesCount = 8;
         moves = 0;
         activeColor = WHITE;
         check = false;
@@ -176,57 +176,57 @@ public class Board {
                 if (isLineClear(piece,forward,1))
                     moves.add(new Move(piece,getDirectionOffset(forward,1)));
                 break;
-//            case Piece.ROOK:
-//                for (int i = 1; i <= 8; i++) {
-//                    for (short direction = 0; direction < 4; direction++) {
-//                        if (isLineClear(piece,direction,i))
-//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-//                    }
-//                }
-//                break;
-//            case Piece.BISHOP:
-//                for (int i = 1; i <= 8; i++) {
-//                    for (short direction = 4; direction < 7; direction++) {
-//                        if (isLineClear(piece,direction,i))
-//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-//                    }
-//                }
-//                break;
-//            case Piece.QUEEN:
-//                for (int i = 1; i <= 8; i++) {
-//                    for (short direction = 0; direction < 7; direction++) {
-//                        if (isLineClear(piece,direction,i))
-//                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
-//                    }
-//                }
-//                break;
-//            case Piece.KING:
-//                for (short direction = 0; direction < 7; direction++) {
-//                    if (isLineClear(piece,direction,1))
-//                        moves.add(new Move(piece,getDirectionOffset(direction,1)));
-//                }
-//                break;
-//            case Piece.KNIGHT:
-//                if (pointIsClear(piece.getX() + 2, piece.getY() + 1))
-//                    moves.add(new Move(piece,2,1));
-//                if (pointIsClear(piece.getX() + 2, piece.getY() - 1))
-//                    moves.add(new Move(piece,2,-1));
-//
-//                if (pointIsClear(piece.getX() + 1, piece.getY() + 2))
-//                    moves.add(new Move(piece,1,2));
-//                if (pointIsClear(piece.getX() - 1, piece.getY() + 2))
-//                    moves.add(new Move(piece,-1,2));
-//
-//                if (pointIsClear(piece.getX() - 2, piece.getY() + 1))
-//                    moves.add(new Move(piece,-2,1));
-//                if (pointIsClear(piece.getX() - 2, piece.getY() - 1))
-//                    moves.add(new Move(piece,-2,-1));
-//
-//                if (pointIsClear(piece.getX() + 1, piece.getY() - 2))
-//                    moves.add(new Move(piece,1,-2));
-//                if (pointIsClear(piece.getX() - 1, piece.getY() - 2))
-//                    moves.add(new Move(piece,1,-2));
-//                break;
+            case Piece.ROOK:
+                for (int i = 1; i <= 8; i++) {
+                    for (short direction = 0; direction < 4; direction++) {
+                        if (isLineClear(piece,direction,i))
+                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+                    }
+                }
+                break;
+            case Piece.BISHOP:
+                for (int i = 1; i <= 8; i++) {
+                    for (short direction = 4; direction < 8; direction++) {
+                        if (isLineClear(piece,direction,i))
+                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+                    }
+                }
+                break;
+            case Piece.QUEEN:
+                for (int i = 1; i <= 8; i++) {
+                    for (short direction = 0; direction < 7; direction++) {
+                        if (isLineClear(piece,direction,i))
+                            moves.add(new Move(piece,getDirectionOffset(direction,i)));
+                    }
+                }
+                break;
+            case Piece.KING:
+                for (short direction = 0; direction < 7; direction++) {
+                    if (isLineClear(piece,direction,1))
+                        moves.add(new Move(piece,getDirectionOffset(direction,1)));
+                }
+                break;
+            case Piece.KNIGHT:
+                if (pointIsClear(piece.getX() + 2, piece.getY() + 1))
+                    moves.add(new Move(piece,2,1));
+                if (pointIsClear(piece.getX() + 2, piece.getY() - 1))
+                    moves.add(new Move(piece,2,-1));
+
+                if (pointIsClear(piece.getX() + 1, piece.getY() + 2))
+                    moves.add(new Move(piece,1,2));
+                if (pointIsClear(piece.getX() - 1, piece.getY() + 2))
+                    moves.add(new Move(piece,-1,2));
+
+                if (pointIsClear(piece.getX() - 2, piece.getY() + 1))
+                    moves.add(new Move(piece,-2,1));
+                if (pointIsClear(piece.getX() - 2, piece.getY() - 1))
+                    moves.add(new Move(piece,-2,-1));
+
+                if (pointIsClear(piece.getX() + 1, piece.getY() - 2))
+                    moves.add(new Move(piece,1,-2));
+                if (pointIsClear(piece.getX() - 1, piece.getY() - 2))
+                    moves.add(new Move(piece,-1,-2));
+                break;
         }
         return moves;
     }
@@ -268,25 +268,25 @@ public class Board {
                 break;
             case UP_RIGHT:
                 for (int i = 1; i <= distance; i++) {
-                    if (y+i > 7 || x+i > 7) return false;
+                    if (x+i > 7 || y+i > 7) return false;
                     if (getPieceAt(x+i, y+i) != null) return false;
                 }
                 break;
             case DOWN_RIGHT:
                 for (int i = 1; i <= distance; i++) {
-                    if (y-i < 0 || x+i > 7) return false;
+                    if (x+i > 7 || y-i < 0) return false;
                     if (getPieceAt(x+i, y-i) != null) return false;
                 }
                 break;
             case DOWN_LEFT:
                 for (int i = 1; i <= distance; i++) {
-                    if (y-i > 0 || x-i < 0) return false;
+                    if (x-i < 0 || y-i < 0) return false;
                     if (getPieceAt(x-i, y-i) != null) return false;
                 }
                 break;
             case UP_LEFT:
                 for (int i = 1; i <= distance; i++) {
-                    if (y+i > 7 || x-i < 0) return false;
+                    if (x-i < 0 || y+i > 7) return false;
                     if (getPieceAt(x-i, y+i) != null) return false;
                 }
                 break;
@@ -324,8 +324,14 @@ public class Board {
 
         for (int j = 7; j >= 0; j--) {
             for (int i = 0; i < 8; i++) {
-                if (pieces[i][j] != null)
-                    sb.append(pieces[i][j].getType() + " ");
+                if (pieces[i][j] != null) {
+                    if (pieces[i][j].getColor() == Piece.BLACK) {
+                        sb.append(pieces[i][j].getType() + " ");
+                    } else {
+                        Character whitePiece = pieces[i][j].getType();
+                        sb.append(whitePiece.toString().toLowerCase() + " ");
+                    }
+                }
                 else
                     sb.append("  ");
                 if (i == 7)
